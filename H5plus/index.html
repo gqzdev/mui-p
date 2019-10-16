@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">H5plus</h1>
+		</header>
+
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell"  id="device.html">
+					<a class="mui-navigate-right">
+						获取手机设备信息
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="screen.html">
+					<a class="mui-navigate-right">
+						获取手机屏幕信息
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="network.html">
+					<a class="mui-navigate-right">
+						获取网络的状态
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="phone.html">
+					<a class="mui-navigate-right">
+						打电话、发短信、发邮件
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="contact.html">
+					<a class="mui-navigate-right">
+						获取手机通讯录联系人
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="setting.html">
+					<a class="mui-navigate-right">
+						设备设置
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="io.html">
+					<a class="mui-navigate-right">
+						IO 管理本地文件系统
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="directoryEntry.html">
+					<a class="mui-navigate-right">
+						DirectoryEntry 文件系统中的目录对象
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="storage.html">
+					<a class="mui-navigate-right">
+						Storage 存储
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="gallery.html">
+					<a class="mui-navigate-right">
+						Gallery 相册管理
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="camera.html">
+					<a class="mui-navigate-right">
+						照相 Camera 打开手机摄像头
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="barcode.html">
+					<a class="mui-navigate-right">
+						条码扫描 barcode
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="share.html">
+					<a class="mui-navigate-right">
+						分享 Share
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="login.html">
+					<a class="mui-navigate-right">
+						OAuth 授权登录
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="download.html">
+					<a class="mui-navigate-right">
+						文件下载 downloader 
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="upload.html">
+					<a class="mui-navigate-right">
+						文件上传 uploader 
+					</a>
+				</li>
+				<li class="mui-table-view-cell"  id="map.html">
+					<a class="mui-navigate-right">
+						地图 Map 
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			mui('.mui-table-view').on('tap', '.mui-table-view-cell', function() {
+				var page=this.getAttribute("id");
+				
+				mui.openWindow({
+					id:page,
+					url:page
+				});
+			})
+			
+		</script>
+	</body>
+
+</html>

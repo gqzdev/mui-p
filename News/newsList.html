@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<ul class="mui-table-view" id="newsList">
+			<li class="mui-table-view-cell mui-media" v-for="item in newsItems" @tap="getDetail(item.post_id)">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-right" :src="item.cover">
+					<div class="mui-media-body">
+						{{item.title}}
+						<p class="mui-ellipsis">{{item.summary}}</p>
+					</div>
+				</a>
+			</li>
+		</ul>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script type="text/javascript">
+			var newsList=new Vue({
+				el:"#newsList",
+				data:{
+					newsItems:[]
+				}
+			});
+			mui.init();
+			//打开新页面
+			//单webview只承载单个页面的dom，减少dom层级及页面大小；页面切换使用原生动画，将最耗性能的部分交给原生实现.
+			var detailPage=null;
+			function getDetail(post_id){
+				if(!detailPage){
+					detailPage=plus.webview.getWebviewById("newsDetail.html");
+				}
+				mui.fire(detailPage,"newsId",{
+					id:post_id
+				});
+				mui.openWindow({
+					url: 'newsDetail.html',
+					id:'newsDetail.html'
+				});
+			}
+			mui.plusReady(function(){
+				mui.getJSON(
+					"http://spider.dcloud.net.cn/api/news",
+					function(data){
+						newsList.newsItems=data;
+					}
+				);
+			});
+			//除了可以使用addEventListener()方法监听某个特定元素上的事件外， 也可以使用.on()方法实现批量元素的事件绑定。
+			// mmon
+			/*
+			mui('.mui-table-view').on('tap', '.mui-table-view-cell', function() {
+				var webview = mui.openWindow({
+					url: 'newsDetail.html',
+					id:'newsDetail.html',
+					styles: {
+						top: "45px", //子页面顶部位置
+						bottom: "50px", //子页面底部位置
+						width: "100%", //子页面宽度，默认为100%
+						height: "100%", //子页面高度，默认为100%
+					},
+					extras: {
+						newsId: 120 //自定义扩展参数，可以用来处理页面间传值
+					},
+					createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+					show:{
+				      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+				      //aniShow:animationType,//页面显示动画，默认为”slide-in-right“；
+				      //duration:animationTime//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+				    },
+					waiting:{
+				      autoShow:true,//自动显示等待框，默认为true
+				      title:'正在加载...',//等待对话框上显示的提示内容
+				      options:{
+				        width:'100%',//等待框背景区域宽度，默认根据内容自动计算合适宽度
+				        height:'50%',//等待框背景区域高度，默认根据内容自动计算合适高度
+				      }
+				    }
+				});
+				console.log(webview.newsId); //输出mui字符串
+			});
+			*/
+		</script>
+	</body>
+
+</html>

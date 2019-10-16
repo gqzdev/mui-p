@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">分页的图文表格</h1>
+		</header>
+
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<ul class="mui-table-view mui-grid-view">
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/6.jpg">
+									<div class="mui-media-body">海边</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/1.jpg">
+									<div class="mui-media-body">夜景</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<ul class="mui-table-view mui-grid-view">
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/2.jpg">
+									<div class="mui-media-body">天空</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/19.jpg">
+									<div class="mui-media-body">車</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<ul class="mui-table-view mui-grid-view">
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/20.jpg">
+									<div class="mui-media-body">天空</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/1.jpg">
+									<div class="mui-media-body">夜色</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<ul class="mui-table-view mui-grid-view">
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/6.jpg">
+									<div class="mui-media-body">海边</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/1.jpg">
+									<div class="mui-media-body">夜景</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<ul class="mui-table-view mui-grid-view">
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/2.jpg">
+									<div class="mui-media-body">天空</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6">
+								<a href="#">
+									<img class="mui-media-object" src="img/19.jpg">
+									<div class="mui-media-body">車</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="mui-slider-indicator" style="position: static;background: #FFFFFF;">
+					<span class="mui-icon mui-icon-back"></span>
+					
+					<div class="mui-number"><span>1</span>/3</div>
+					<span class="mui-icon mui-icon-forward"></span>
+					
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</body>
+
+</html>

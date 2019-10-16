@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.banner div {
+				display: inline-block;
+			}
+			.banner-item1{
+				width: 10%;
+			}
+			.banner-item2{
+				width: 77%;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="banner">
+				<div class="banner-item1">
+					<img src="imgs/logo.png" width="38px"/>
+				</div>
+				<div class="banner-item2">
+					<input type="search" class="mui-input-clear" placeholder="ForFuture-淘宝网">
+				</div>
+				<div class="banner-item1" id="barcode_scan">
+					<img src="imgs/saoyisao.png" width="20px" style="float: right;"/>
+				</div>
+			</div>
+		</header>
+		<div class="mui-content">
+		    <nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item mui-active" id="index.html">
+					<span class="mui-icon mui-icon-home"></span>
+					<span class="mui-tab-label">首页</span>
+				</a>
+				<a class="mui-tab-item" id="weitao.html">
+					<span class="mui-icon mui-icon-phone"></span>
+					<span class="mui-tab-label">微淘</span>
+				</a>
+				<a class="mui-tab-item" id="shopcart.html">
+					<span class="mui-icon mui-icon-star"></span>
+					<span class="mui-tab-label">购物车</span>
+				</a>
+				<a class="mui-tab-item" id="message.html">
+					<span class="mui-icon mui-icon-chatbubble"></span>
+					<span class="mui-tab-label">消息</span>
+				</a>
+				<a class="mui-tab-item" id="mine.html">
+					<span class="mui-icon mui-icon-contact"></span>
+					<span class="mui-tab-label">我的</span>
+				</a>
+			</nav>
+		</div>
+		
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				subpages: [{
+					url:"list.html", //子页面HTML地址，支持本地地址和网络地址
+					id: "list.html", //子页面标志
+					styles: {
+						top: "45px", //子页面顶部位置
+						bottom: "50px", //子页面底部位置
+						width: "100%"//, //子页面宽度，默认为100%
+						//height: "100%", //子页面高度，默认为100%
+					},
+					extras: {} //额外扩展参数
+				}]
+			});
+			
+			//二维码绑定
+			mui('.banner').on('tap','#barcode_scan',function(){
+			  	var webview = mui.openWindow({
+					url: 'barcode_scan.html',
+					id:'barcode_scan.html',
+				})
+			});
+			
+			var subPageStyle={
+				top: "45px", //子页面顶部位置
+				bottom: "50px", //子页面底部位置
+				width: "100%"//, //子页面宽度，默认为100%
+				//height: "100%" //子页面高度，默认为100%
+			};
+			var subpages=['index.html','weitao.html','message.html','shopcart.html','mine.html'];
+			var activeTab=subpages[0];
+			var currentWebview;
+			mui.plusReady(function () {
+			    currentWebview=plus.webview.currentWebview();
+			    mui('.mui-bar-tab').on('tap','.mui-tab-item',function(){
+			        var targetTab=this.getAttribute("id");
+			        if(targetTab==activeTab){
+			       		return ;
+			        }
+			        
+			        var targetWebview=plus.webview.getWebviewById(targetTab);
+			        
+			        if(!targetWebview){
+			        	targetWebview=plus.webview.create(targetTab,targetTab,subPageStyle);
+			        	
+			        	currentWebview.append(targetWebview);
+			        }
+			        
+			        //显示
+			        targetWebview.show("fade-in",300);
+			        //隐藏原来的webview
+			        plus.webview.hide(activeTab);
+			        //更换显示的活跃的选项卡
+			        activeTab=targetWebview;
+			    }); 
+			});
+			
+			
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			#map{
+				width: 100%;
+				position: fixed;
+				top: 120px;
+				bottom: 0px;				
+			}
+			
+			#location{
+				text-align: center;
+				height: 50px;
+				width: 100%;
+				color: darkorange;
+			}
+			
+			#address{
+				text-indent: 2em;
+				font-size:16px;
+				color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">地图</h1>
+		</header>
+		
+		<div class="mui-content">
+		    <div>
+		    	<div id="location">
+		    		[ForFuture提示您的当前位置：]<br />
+		    		<p id="address" onclick="toHere()"></p>
+		    	</div>
+		    	
+		    	<div id="map"></div>
+		    	 
+		    	 
+		    </div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function(){
+				var height=document.documentElement.clientHeight;
+				//document.getElementById("map").style.height=(height-84)+'px';
+				showMap();
+			});
+			
+			function showMap () {
+				var mapObj=new plus.maps.Map("map");
+				
+				//设置缩放比例
+				mapObj.setZoom(18);
+				//显示用户信息
+				mapObj.showUserLocation(true);
+				//获取用户信息
+				mapObj.getUserLocation(function (state,point) {
+					//得到用户的位置
+					console.log(JSON.stringify(point));
+					//Maps模块管理地图控件，用于在web页面中显示地图控件，
+					//提供各种接口操作地图控件，如添加标点、路线等
+					
+					var center=new plus.maps.Point(point.longitude,point.latitude);
+					
+					//设置地图的中心点
+					mapObj.setCenter(center);
+					//外卖小哥的位置
+					var p1=new plus.maps.Point(point.longitude+0.003,point.latitude-0.0003);
+					
+					//设置外卖小哥的图标
+					var marker=new plus.maps.Marker(p1);
+					marker.setIcon("images/qihoo.png");
+					
+					//显示气泡
+					var bubble=new plus.maps.Bubble("ForFuture Group位置服务");
+					marker.setBubble(bubble);
+					//图标marker1显示在地图中
+					mapObj.addOverlay(marker);
+					
+					
+				});
+				
+				
+				//获取用户的位置信息
+				//Geolocation模块管理设备位置信息，用于获取地理位置信息，如经度、纬度等
+				plus.geolocation.getCurrentPosition(function(p){
+					console.log(JSON.stringify(p));
+					var address=p.address.poiName;
+					console.log(address);
+					document.getElementById("address").innerHTML=address;
+				});
+				
+			}
+			
+			
+			function toHere () {
+				// 设置目标位置坐标点和其实位置坐标点
+				var dst = new plus.maps.Point(115.02804,30.215017); // 天安门   导航目的地坐标
+				var src = new plus.maps.Point(116.335,39.966); // 大钟寺   导航起始地坐标
+				// 调用系统地图显示 
+				plus.maps.openSysMap( dst, "天安门", src );
+			}
+		</script>
+	</body>
+
+</html>

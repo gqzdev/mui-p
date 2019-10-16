@@ -1,0 +1,23 @@
+{
+	"index.html": {
+		"refer": [
+			"screen.html",
+			"device.html",
+			"network.html",
+			"contact.html",
+			"phone.html",
+			"camera.html",
+			"setting.html",
+			"io.html",
+			"directoryEntry.html",
+			"storage.html",
+			"gallery.html",
+			"barcode.html",
+			"share.html",
+			"login.html",
+			"download.html",
+			"upload.html",
+			"map.html"
+		]
+	}
+}

@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.all.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">选择器picker</h1>
+		</header>
+
+		<div class="mui-content">
+			<center>PopPicker</center>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="show11()">一级选择器</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" onclick="show22()">二级选择器</button>
+			<button type="button" class="mui-btn mui-btn-danger mui-btn-block" onclick="show33()">三级选择器</button>
+			
+			<center>DtPicker</center>
+			<button type="button" class="mui-btn mui-btn-green mui-btn-block" onclick="showDate()">时间选择器</button>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.all.js"></script>
+		<script src="js/city.data.js"></script>
+		<script src="js/city.data-3.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			//mui框架扩展了pipcker组件,可用于弹出选择器,在各平台上都有统一表现.poppicker和dtpicker是对picker的具体实现
+			//var picker = new mui.PopPicker(); 
+
+			//setData() 支持数据格式为: 数组
+
+			function show11() {
+				var picker = new mui.PopPicker();
+				picker.setData(
+					[{
+							value: "chinese",
+							text: "语文"
+						},
+						{
+							value: "math",
+							text: "数学"
+						},
+						{
+							value: "english",
+							text: "英语"
+						},
+						{
+							value: "chemistry",
+							text: "化学"
+						}
+					]
+				);
+				picker.show(function(SelectedItem) {
+					console.log(SelectedItem[0].value+","+SelectedItem[0].text);
+				});
+			}
+			
+			
+			
+			//二级联动
+			//
+				/*layer
+				Type: Int
+				picker显示列数*/
+
+			function show22(){
+				var picker =new mui.PopPicker({
+					layer:2
+				});
+				picker.setData(cityData);
+				picker.show(function(SelectedItem){
+					console.log(SelectedItem[0].text+","+SelectedItem[1].text);
+				});
+			}
+			
+			function show33(){
+				var picker =new mui.PopPicker({
+					layer:3
+				});
+				picker.setData(cityData3);
+				picker.show(function(SelectedItem){
+					console.log(SelectedItem[0].text+","+SelectedItem[1].text+","+SelectedItem[2].text);
+				});
+			}
+			
+			//日期选择器
+						/*	Type: Array
+				设置默认标签区域提示语
+				可设置["年", "月", "日", "时", "分"]这五个字段,
+				可以根据视图模式选择设置个别标签,也可以设置所有标签,
+				dtpicker显示的时候只会根据当前视图显示设置项,*/
+			function showDate(){
+				
+				var picker =new mui.DtPicker({
+					type: "datetime",//设置日历初始视图模式 
+				    beginDate: new Date(2010, 04, 25),//设置开始日期 
+				    
+				    endDate: new Date(),//设置结束日期 
+				    labels: ['年', '月', '日', '時', '分']//设置默认标签区域提示语 
+				});
+				
+				picker.show(function(e){
+					console.log(e);
+				});
+			}
+		</script>
+	</body>
+
+</html>

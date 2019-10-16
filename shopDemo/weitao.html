@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.card_item{
+				width: 33%;
+				float: left;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--这里放置真实显示的DOM内容-->
+					
+					<div class="mui-card">
+						<!--页眉，放置标题-->
+						<div class="mui-card-header">
+							<div class="mui-media-body">
+								<span>618年中购物节</span>
+								<p>全球购物节-FORFUTUR 2018-6-18</p>
+							</div>
+						</div>
+						<!--内容区-->
+						<div class="mui-card-content">
+							<div class="card_item">
+								<img src="imgs/shop21.jpg" width="100%" />
+							</div>
+							<div class="card_item">
+								<img src="imgs/shop22.jpg" width="100%" />
+							</div>
+							<div class="card_item">
+								<img src="imgs/shop23.jpg" width="100%" />
+							</div>
+							
+							<div class="card_item">
+								<img src="imgs/shop15.jpg" width="100%" />
+							</div>
+							<div class="card_item">
+								<img src="imgs/shop16.jpg" width="100%" />
+							</div>
+							<div class="card_item">
+								<img src="imgs/shop13.jpg" width="100%" />
+							</div>
+							
+							<div class="card_item">
+								<img src="imgs/shop24.jpg" width="100%" />
+							</div>
+							<div class="card_item">
+								<img src="imgs/shop25.jpg" width="100%" />
+							</div>
+							<div class="card_item">
+								<img src="imgs/shop26.jpg" width="100%" />
+							</div>
+						</div>
+						<!--页脚，放置补充信息或支持的操作-->
+						<div class="mui-card-footer">
+							
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui(".mui-scroll-wrapper").scroll({
+				deceleration: 0.0003 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+		</script>
+	</body>
+
+</html>

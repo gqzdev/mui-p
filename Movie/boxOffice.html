@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.index{
+				color: red;
+				font-family: '楷体';
+			}
+			.genres {
+				color:orangered;
+			}
+			.directors{
+				color:darkorange;
+			}
+			.casts{
+				font-weight: bolder;
+				color:#FF0000;
+			}
+			.year{
+				color: dodgerblue;
+			}
+			.score{
+				color: #FF8C00;
+				padding-right:2px ;
+			}
+			.movies_images {
+				max-width: 100px !important;
+				width: 100px !important;
+				height: 100px !important;
+				margin-right: 20px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">北美票房榜</h1>
+		</header>
+
+		<div class="mui-content">
+			<!--下拉刷新容器-->
+			<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--数据列表-->
+					<ul class="mui-table-view" id="movies">
+
+						<li class="mui-table-view-cell mui-media" v-for="(item,index) in moviesList">
+							<a href="javascript:;">
+								<img class="mui-media-object mui-pull-left movies_images" :src="item.images">
+								<div class="mui-media-body">
+									<span class="index">{{index+1}}</span>&nbsp;{{item.title}}
+									<p class="mui-ellipsis">电影类型:<span class="genres">{{item.genres}}</span></p>
+									<p class="mui-ellipsis">导演:<span class="directors">{{item.directors}}</span></p>
+									<p class="mui-ellipsis">演员:<span class="casts">{{item.casts}}</span></p>
+									<p class="mui-ellipsis">年份:<span class="year">{{item.year}}</span>&nbsp;
+										评分:<span class="score">{{item.score}}</span></p>
+								</div>
+							</a>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script type="text/javascript">
+			var us_box = new Vue({
+				el: "#movies",
+				data: {
+					moviesList: []
+				}
+			});
+
+			//mui 初始化时设置pullRefresh各项参数，与双 webview 模式的子页面设置是一样的。
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+
+					//下拉刷新功能  刷新
+					down: {
+						height: 50, //可选,默认50.触发下拉刷新拖动距离,
+						auto: true, //可选,默认false.首次加载自动下拉刷新一次
+						contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+						contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+						contentrefresh: "别催，人家正在刷新...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+						callback: pullfresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+
+					//上拉加载  加载更多数据
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: true, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '别欺负我了,人家可是很有底线的...', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: loadMoreData //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+
+				}
+
+			});
+			
+			//从服务器获取数据
+			function convert(items){
+				
+				var list=[];//申明一个数组
+				
+				//处理服务器的数据
+				items.forEach(function(item){
+					var casts="";
+					for(var i=0; i<item.subject.casts.length;i++){
+						casts+=item.subject.casts[i].name+" ";
+					}
+					
+					//添加到数组中
+					list.push(
+						{
+							id:item.subject.id,  //id
+							title:item.subject.title, //标题
+							images:item.subject.images.large, //图片
+							genres:item.subject.genres.toString(),//分类
+							directors:item.subject.directors[0].name,//导演
+							casts:casts,//演员
+							score:item.subject.rating.average,//评分
+							year:item.subject.year//年份
+						}
+					);
+					
+				});
+				
+				return list;
+			};
+			
+			
+			//豆瓣API
+			//正在热映 http://api.douban.com/v2/movie/in_theaters
+			//即将上映 http://api.douban.com/v2/movie/coming_soon
+			//北美票房榜 http://api.douban.com/v2/movie/us_box
+			//搜索 http://api.douban.com/v2/movie/search?q={text}
+			
+			//下拉刷新功能  刷新
+			function pullfresh(){
+				mui.getJSON(
+					"http://api.douban.com/v2/movie/us_box",
+					{start:0,count:10},
+					function(data){
+						us_box.moviesList=convert(data.subjects);
+						//业务逻辑代码，比如通过ajax从服务器获取新数据；
+					    //注意，加载完新数据后，必须执行如下代码，注意：若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+					    //没有更多内容了，endPulldown 传入true， 不再执行下拉刷新
+					    mui('#refreshContainer').pullRefresh().endPulldown();
+					}
+				);
+			};
+			
+			
+			//上拉加载  加载更多数据
+			function loadMoreData(){
+				mui.getJSON(
+					"http://api.douban.com/v2/movie/us_box",
+					{start:us_box.moviesList.length, count:10},
+					function(data){
+						us_box.moviesList=us_box.moviesList.concat(convert(data.subjects));
+						//业务逻辑代码，比如通过ajax从服务器获取新数据；
+					    //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+					    //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+					    var bool=us_box.moviesList.length>=data.total;
+					    
+					    mui("#refreshContainer").pullRefresh().endPullupToRefresh(bool);
+					    
+					    if(bool){
+					    	//禁用上拉刷新
+					    	mui('#refreshContainer').pullRefresh().disablePullupToRefresh();
+					    }
+					}
+				);
+			}
+		</script>
+	</body>
+
+</html>

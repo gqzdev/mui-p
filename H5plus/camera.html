@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">照相 Camera</h1>
+		</header>
+
+		<div class="mui-content" id="contactContainer">
+			<!--<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="videoCapture()">摄像</button>-->
+			<div id="imageContianer">
+				<!----照相---->
+				<div id="sheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+				    <!-- 可选择菜单 -->
+				    <ul class="mui-table-view">
+				      <li class="mui-table-view-cell">
+				        <a href="#" onclick="pick()">从相册选取</a>
+				      </li>
+				      <li class="mui-table-view-cell">
+				        <a href="#" onclick="capture()">拍照</a>
+				      </li>
+				    </ul>
+				    <!-- 取消菜单 -->
+				    <ul class="mui-table-view">
+				      <li class="mui-table-view-cell">
+				        <a href="#sheet1" onclick="cancel()"><b>取消</b></a>
+				      </li>
+				    </ul>
+				</div>
+				<a href="#sheet" id="openSheet" class="mui-btn mui-btn-primary mui-btn-block">选择照片</a>
+				<img :src="imgSrc" width="100%" height="auto" />
+				
+				<!----摄像---->
+				<div id="sheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+				    <!-- 可选择菜单 -->
+				    <ul class="mui-table-view">
+				      <li class="mui-table-view-cell">
+				        <a href="#" onclick="pick()">从本地选取</a>
+				      </li>
+				      <li class="mui-table-view-cell">
+				        <a href="#" onclick="capture()">拍摄</a>
+				      </li>
+				    </ul>
+				    <!-- 取消菜单 -->
+				    <ul class="mui-table-view">
+				      <li class="mui-table-view-cell">
+				        <a href="#sheet1" onclick="cancel()"><b>取消</b></a>
+				      </li>
+				    </ul>
+				</div>
+				<a href="#sheet" id="openSheet" class="mui-btn mui-btn-primary mui-btn-block">选择视频</a>
+				<video width="100%" height="auto">
+					<source src="myvideo.mp4" type="video/mp4"></source>
+					<source src="myvideo.ogv" type="video/ogg"></source>
+					<source src="myvideo.webm" type="video/webm"></source>
+					<object width="" height="" type="application/x-shockwave-flash" data="myvideo.swf">
+						<param name="movie" value="myvideo.swf" />
+						<param name="flashvars" value="autostart=true&amp;file=myvideo.swf" />
+					</object>
+					当前浏览器不支持 video直接播放，点击这里下载视频： <a href="myvideo.webm">下载视频</a>
+				</video>
+				
+			</div>
+			
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script type="text/javascript">
+			var selectImg = new Vue({
+				el: "#imageContianer",
+				data: {
+					imgSrc:""
+				}
+			});
+
+			mui.init();
+
+			function cancel () {
+				
+			}
+			//从手机中选择相片
+			function pick () {
+				plus.gallery.pick(function(path){
+						selectImg.imgSrc=plus.io.convertLocalFileSystemURL(path);
+						//selectImg.imgSrc=plus.io.convertAbsoluteFileSystem(path);
+						console.log(selectImg.imgSrc);
+					},function(e){
+						mui.alert("选择失败!");
+						console.log(e.message);
+					}
+				);
+			}
+			
+			//照相
+			//getCamera: 获取摄像头管理对象  plus.camera.getCamera(index);
+			function capture () {
+				var camera=plus.camera.getCamera();
+				camera.captureImage(
+					//拍照操作成功的回调函数
+					function(path){
+						console.log("拍照成功！");
+						//把照片保存到相册
+						plus.gallery.save(path,function() {
+								console.log("保存成功！");
+								selectImg.imgSrc=plus.io.convertLocalFileSystemURL(path);
+							},function(e){
+								console.log("保存失败！"+e.message);
+							}
+						)
+					},
+					//拍照操作失败的回调函数
+					function(error){
+						console.log("拍照失败！"+error.message);
+					},
+					//摄像头拍照参数
+					{ 
+						//resolution:res,      //拍照或摄像使用的分辨率
+						//format:fmt,          //拍照或摄像的文件格式
+						filename:"_doc/img/",  //拍照或摄像文件保存的路径
+						index:"2",			  //拍照或摄像默认使用的摄像头
+						ppopover:{top:"10px",left:"10px",width:"200px",height:"200px"}	//拍照或摄像界面弹出指示区域 其为JSON对象
+					}
+					
+				);
+			}
+			
+			
+			
+			
+			
+			
+			
+			function getCamera() {
+				var cmr = plus.camera.getCamera();
+				alert("Camera supperted video formats: " + cmr.supportedVideoFormats);
+			}
+			// 摄像
+			function videoCapture() {
+				cmr = plus.camera.getCamera();
+				var res = cmr.supportedVideoResolutions[0];
+				var fmt = cmr.supportedVideoFormats[0];
+				console.log("Resolution: " + res + ", Format: " + fmt);
+				cmr.startVideoCapture(function(path) {
+						alert("Capture video success: " + path);
+					},
+					function(error) {
+						alert("Capture video failed: " + error.message);
+					}, {
+						resolution: res,
+						format: fmt
+					}
+				);
+				// 拍摄10s后自动完成 
+				setTimeout(stopCapture, 10000);
+			}
+			// 停止摄像
+			function stopCapture() {
+				cmr = plus.camera.getCamera();
+				console.log("stopCapture");
+				cmr.stopVideoCapture();
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">文件下载  downloader</h1>
+		</header>
+		
+		<div class="mui-content">
+		    <div id="downloadContianer">
+		    	<div style="margin-top: 10px;color: goldenrod;font-size:20px; text-align: center;">
+		    		图片种子路径：<br /><input type="text" name="" id="" value="" placeholder="种子下载路径" v-model="fileUrl"/>
+		    		<div style="line-height: 30px;padding-top: 10px">下载状态：{{downloadStatus}}</div><br />
+		    		<div class="mui-progressbar" style="font-size:19px ;height: 10px;">
+		    			<span></span>
+		    		</div>
+		    	</div><br /><br />
+		    	<div style="text-align: center;">
+		    		
+		    		<button type="button" class="mui-btn mui-btn-green" onclick="startLoad()">开始下载</button>
+		    		<button type="button" class="mui-btn mui-btn-danger" onclick="cancelLoad()">取消下载</button>
+		    		<br /><br /><img style="text-align: center;" width="100%" height="100%" :src="fileUrl"/>
+		    		
+		    	</div>
+		    	
+		    </div>
+		    
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			var downloadVue=new Vue({
+				el:'#downloadContianer',
+				data:{
+					downloadStatus:'',
+					fileUrl:'http://t1.27270.com/uploads/tu/201806/58/3ad6e5d9de.jpg'
+				}
+			});
+			
+			//var fileUrl="http://t1.27270.com/uploads/tu/201806/58/3ad6e5d9de.jpg";
+			
+			
+			
+			//开始下载
+			function startLoad  () {
+				if (downloadVue.fileUrl==null) {
+					mui.toast("请输入下载路径！");
+					mui.alert("请输入下载路径！");
+				}else{
+					var arr=downloadVue.fileUrl.split("/");//根据/分隔
+					var saveUrl="_downloads\\"+arr[arr.length-1];
+				
+					plus.io.resolveLocalFileSystemURL(
+						saveUrl,//本地文件存储路径
+						function(entry){
+							if (entry.isFile) {
+								mui.toast("文件已经下载了！");
+							}
+						},function(e){
+							//下载文件
+							downloadFile();
+						}
+					);
+				}
+			}
+			
+			var downloadTask=null;//下载任务对象
+			
+			function downloadFile () {
+				downloadTask=plus.downloader.createDownload(
+					downloadVue.fileUrl,//下载地址
+					function(task,status){
+						//下载完成的回调函数
+						mui.toast("下载完成");
+					}
+				);
+				//添加下载监听事件
+				downloadTask.addEventListener("statechanged",function(task,status){
+					switch (task.state){
+						case 1:
+							//下载任务开始请求
+							console.log("下载任务开始请求！");
+							mui.toast("建立网络连接！");
+							break;
+						case 2:
+							//下载任务请求已经接收
+							console.log("下载任务请求已经接收！");
+							mui.toast("准备传输数据内容");
+							break;
+						case 3:
+							//下载任务接收数据
+							console.log("下载任务接收数据！"+task.downloadedSize+"/"+task.totalSize);
+							var obj=(task.downloadedSize/task.totalSize)*100;
+							mui(".mui-progressbar").progressbar({
+								progress:obj
+							}).show();
+							
+							downloadVue.downloadStatus=task.downloadedSize+"/"+task.totalSize;
+							break;
+						case 4:
+							//下载任务已完成
+							console.log("下载任务已完成！");
+							mui.toast("下载任务已完成！");
+							break;
+					}
+				});
+				
+				//开始下载
+				downloadTask.start();
+			}
+			
+			//取消下载
+			function cancelLoad () {
+				if (!downloadTask) {
+					//下载对象为null
+					mui.toast("还没下载");
+					return;
+				}
+				downloadTask.abort();
+				downloadTask=null;
+				downloadVue.fileUrl=null;
+				downloadVue.downloadStatus=null;
+				mui(".mui-progressbar").progressbar({
+					progress:0
+				}).show();
+			}
+		</script>
+	</body>
+
+</html>

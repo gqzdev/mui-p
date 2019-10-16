@@ -1,0 +1,14 @@
+{
+  "index.html": {
+    "resources": [
+      "hotMovies.html"
+    ],
+    "refer": [
+      "comingSoon.html",
+      "boxOffice.html",
+      "mouthList.html",
+      "mine.html",
+      "hotMovies.html"
+    ]
+  }
+}

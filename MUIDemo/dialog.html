@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">dialog-消息框</h1>
+		</header>
+		<!--
+        	作者：971785418@qq.com
+        	时间：2018-06-11
+        	描述：创建并显示对话框，弹出的对话框为非阻塞模式，
+        	用户点击对话框上的按钮后关闭( h5模式的对话框也可通过 closepopup关闭 )，
+        	并通过callback函数返回用户点击按钮的索引值或输入框中的值。 
+        -->
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="alertDialog()">警告框</button>	
+			<button type="button" class="mui-btn mui-btn-primary mui-btn-block" onclick="confirmDialog()">确认框</button>	
+			<button type="button" class="mui-btn mui-btn-primary mui-btn-block" onclick="promptDialog()">输入对话框</button>	
+			<button type="button" class="mui-btn mui-btn-primary mui-btn-block" onclick="toastDialog()">自动消失提示框</button>	
+		</div>
+		
+		<!--
+        	作者：971785418@qq.com
+        	时间：2018-06-11
+        	描述：如果有定制对话框样式的需求( 只能修改h5模式对话框)可以在mui.css中修改.mui-popup类下的样式
+
+			如果需要修改DOM结构可以按照以下方式处理.
+			
+			//修改弹出框默认input类型为password 
+			mui.prompt('text','deftext','title',['true','false'],null,'div') 
+			document.querySelector('.mui-popup-input input').type='password' 
+        -->
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			function alertDialog(){
+				mui.alert("你正在使用MUI！","ForFuture","确定",function(){
+					mui.alert("感谢你的支持！","ForFuture");
+				});
+			}
+			
+			function confirmDialog(){
+				var btnVal=["还是算了吧","残忍删除"];
+				mui.confirm("你确认要删除吗？",'删除操作',btnVal,function(e){
+					if(e.index==0){
+						console.log("未删除！");
+					}
+					if(e.index==1){
+						mui.alert("删除成功！");
+						console.log("删除成功!");
+					}
+					
+				});
+			}
+			
+			
+			function promptDialog(){
+				var btnVal=["我保留意见","提交"];
+				mui.prompt("请输入您的建议","界面方面还需要完善",'提建议',btnVal,function(e){
+					if(e.index==1){
+						console.log(e.value);
+					}
+				});
+			}
+			
+			function toastDialog(){
+				mui.toast("您已经完成注册,可以登录了",{duration:"long"});
+			}
+			
+				
+		</script>
+		
+	</body>
+
+</html>

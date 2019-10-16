@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">ForFuture News</h1>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+			    <div class="mui-scroll">
+			        <a class="mui-control-item mui-active">
+			            推荐
+			        </a>
+			        <a class="mui-control-item">
+			          热点
+			        </a>
+			        <a class="mui-control-item">
+			           北京
+			        </a>
+			        <a class="mui-control-item">
+			           社会
+			        </a>
+			        <a class="mui-control-item">
+			           娱乐
+			        </a>
+			        <a class="mui-control-item">
+			           科技
+			        </a>
+			    </div>
+			</div>
+
+
+			<nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item mui-active" id="newsList.html">
+					<span class="mui-icon mui-icon-home"></span>
+					<span class="mui-tab-label">首页</span>
+				</a>
+				<a class="mui-tab-item" id="main.html">
+					<span class="mui-icon mui-icon-starhalf"></span>
+					<span class="mui-tab-label">ForFuture</span>
+				</a>
+				<a class="mui-tab-item" id="setting.html">
+					<span class="mui-icon mui-icon-gear"></span>
+					<span class="mui-tab-label">设置</span>
+				</a>
+				<a class="mui-tab-item" id="login.html">
+					<span class="mui-icon mui-icon-person"></span>
+					<span class="mui-tab-label">我的</span>
+				</a>
+			</nav>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				subpages: [{
+					url:"newsList.html", //子页面HTML地址，支持本地地址和网络地址
+					id: "newsList", //子页面标志
+					styles: {
+						top: "45px", //子页面顶部位置
+						bottom: "50px", //子页面底部位置
+						width: "100%"//, //子页面宽度，默认为100%
+						//height: "100%", //子页面高度，默认为100%
+					},
+					extras: {} //额外扩展参数
+				}],
+				preloadPages:[
+					{
+						url:"newsDetail.html",
+						id:"newsDetail.html",
+						styles: {
+							top: "45px", //子页面顶部位置
+							bottom: "50px", //子页面底部位置
+							width: "100%"
+						}
+					}
+				]
+			});
+			
+			var subPageStyle = {
+				top: "0px", //子页面顶部位置
+				bottom: "50px", //子页面底部位置
+				width: "100%" //, //子页面宽度，默认为100%
+				//height: "100%" //子页面高度，默认为100%
+			};
+			var subpages = ['newsList.html', 'main.html', 'setting.html', 'login.html'];
+			var activeTab = subpages[0];
+			var currentWebview;
+			mui.plusReady(function() {
+				currentWebview = plus.webview.currentWebview();
+				mui('.mui-bar-tab').on('tap', '.mui-tab-item', function() {
+					var targetTab = this.getAttribute("id");
+					if(targetTab == activeTab) {
+						return;
+					} else {
+						var targetWebview = plus.webview.getWebviewById(targetTab);
+						if(!targetWebview) {
+							targetWebview = plus.webview.create(targetTab, targetTab, subPageStyle);
+							currentWebview.append(targetWebview);
+						}
+						targetWebview.show("fade-in", 300);//显示
+						plus.webview.hide(activeTab);//隐藏原来的webview
+						activeTab = targetWebview;//更换显示的活跃的选项卡
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

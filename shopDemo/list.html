@@ -1,0 +1,246 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.card_shop {
+				background-color: royalblue;
+			}
+			
+			.tuijian {
+				width: 48%;
+				float: left;
+				margin-left: 5px;
+			}
+			
+			.mui-card-footer span {
+				font-size: 10px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		
+			<!--区域滚动-->
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--这里放置真实显示的DOM内容-->
+					<!--轮播图 start-->
+					<div id="slider" class="mui-slider">
+						<div class="mui-slider-group mui-slider-loop">
+							<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+							<div class="mui-slider-item mui-slider-item-duplicate">
+								<a href="#">
+									<img src="imgs/shop16.jpg" height="300px">
+								</a>
+							</div>
+							<!-- 第一张 -->
+							<div class="mui-slider-item">
+								<a href="#">
+									<img src="imgs/shop14.jpg" height="300px">
+								</a>
+							</div>
+							<!-- 第二张 -->
+							<div class="mui-slider-item">
+								<a href="#">
+									<img src="imgs/shop1.jpg" height="300px">
+								</a>
+							</div>
+							<!-- 第三张 -->
+							<div class="mui-slider-item">
+								<a href="#">
+									<img src="imgs/shop16.jpg" height="300px">
+								</a>
+							</div>
+							<!-- 第四张 -->
+							<div class="mui-slider-item">
+								<a href="#">
+									<img src="imgs/shop10.jpg" height="300px">
+								</a>
+							</div>
+							<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+							<div class="mui-slider-item mui-slider-item-duplicate">
+								<a href="#">
+									<img src="imgs/shop14.jpg" height="300px">
+								</a>
+							</div>
+						</div>
+						<div class="mui-slider-indicator">
+							<div class="mui-indicator mui-active"></div>
+							<div class="mui-indicator"></div>
+							<div class="mui-indicator"></div>
+							<div class="mui-indicator"></div>
+						</div>
+					</div>
+					<!--轮播图 end-->
+
+					<!--卡片商品 start-->
+					<div class="card_shop">
+						<!--推荐1-->
+						<div class="tuijian">
+							<div class="mui-card">
+								<!--页眉，放置标题-->
+								<!--若希望在页眉放置更丰富的信息，比如头像、主标题、副标题，则需使用.mui-media-body类，示例代码如下：-->
+								<div class="mui-card-header mui-card-media">
+									<img src="imgs/b3.jpg" />
+									<div class="mui-media-body">
+										新百伦
+										<p>2018-06-30 15:30</p>
+									</div>
+								</div>
+								<!--内容区-->
+								<div class="mui-card-content">
+									<img src="imgs/shop20.jpg" width="100%" />
+								</div>
+								<!--页脚，放置补充信息或支持的操作-->
+								<div class="mui-card-footer">
+									<span>￥：399.00</span>
+									<span>573件</span>
+									<span>更多</span>
+								</div>
+							</div>
+						</div>
+						<!--推荐2-->
+						<div class="tuijian">
+							<div class="mui-card">
+								<!--页眉，放置标题-->
+								<!--若希望在页眉放置更丰富的信息，比如头像、主标题、副标题，则需使用.mui-media-body类，示例代码如下：-->
+								<div class="mui-card-header mui-card-media">
+									<img src="imgs/b2.jpg" />
+									<div class="mui-media-body">
+										CAMPER
+										<p>2018-04-30 10:30</p>
+									</div>
+								</div>
+								<!--内容区-->
+								<div class="mui-card-content">
+									<img src="imgs/shop12.jpg" width="100%" />
+								</div>
+								<!--页脚，放置补充信息或支持的操作-->
+								<div class="mui-card-footer">
+									<span>￥：399.00</span>
+									<span>556件</span>
+									<span>更多</span>
+								</div>
+							</div>
+						</div>
+						<!--推荐3-->
+						<div class="tuijian">
+							<div class="mui-card">
+								<!--页眉，放置标题-->
+								<!--若希望在页眉放置更丰富的信息，比如头像、主标题、副标题，则需使用.mui-media-body类，示例代码如下：-->
+								<div class="mui-card-header mui-card-media">
+									<img src="imgs/b1.jpg" />
+									<div class="mui-media-body">
+										NIKE
+										<p>2018-06-10 10:30</p>
+									</div>
+								</div>
+								<!--内容区-->
+								<div class="mui-card-content">
+									<img src="imgs/shop16.jpg" width="100%" />
+								</div>
+								<!--页脚，放置补充信息或支持的操作-->
+								<div class="mui-card-footer">
+									<span>￥：169.00</span>
+									<span>541件</span>
+									<span>更多</span>
+								</div>
+							</div>
+						</div>
+						<!--推荐4-->
+						<div class="tuijian">
+							<div class="mui-card">
+								<!--页眉，放置标题-->
+								<!--若希望在页眉放置更丰富的信息，比如头像、主标题、副标题，则需使用.mui-media-body类，示例代码如下：-->
+								<div class="mui-card-header mui-card-media">
+									<img src="imgs/b6.jpg" />
+									<div class="mui-media-body">
+										adidas
+										<p>2018-02-30 10:30</p>
+									</div>
+								</div>
+								<!--内容区-->
+								<div class="mui-card-content">
+									<img src="imgs/shop12.jpg" width="100%" />
+								</div>
+								<!--页脚，放置补充信息或支持的操作-->
+								<div class="mui-card-footer">
+									<span>￥：199.00</span>
+									<span>556件</span>
+									<span>更多</span>
+								</div>
+							</div>
+						</div>
+						<!--推荐5-->
+						<div class="tuijian">
+							<div class="mui-card">
+								<!--页眉，放置标题-->
+								<!--若希望在页眉放置更丰富的信息，比如头像、主标题、副标题，则需使用.mui-media-body类，示例代码如下：-->
+								<div class="mui-card-header mui-card-media">
+									<img src="imgs/b5.jpg" />
+									<div class="mui-media-body">
+										PUMA
+										<p>2018-05-16 10:30</p>
+									</div>
+								</div>
+								<!--内容区-->
+								<div class="mui-card-content">
+									<img src="imgs/shop4.png" width="100%" />
+								</div>
+								<!--页脚，放置补充信息或支持的操作-->
+								<div class="mui-card-footer">
+									<span>￥：789.00</span>
+									<span>556件</span>
+									<span>更多</span>
+								</div>
+							</div>
+						</div>
+						<!--推荐6-->
+						<div class="tuijian">
+							<div class="mui-card">
+								<!--页眉，放置标题-->
+								<!--若希望在页眉放置更丰富的信息，比如头像、主标题、副标题，则需使用.mui-media-body类，示例代码如下：-->
+								<div class="mui-card-header mui-card-media">
+									<img src="imgs/b4.jpg" />
+									<div class="mui-media-body">
+										CONVERSE
+										<p>2018-01-30 10:30</p>
+									</div>
+								</div>
+								<!--内容区-->
+								<div class="mui-card-content">
+									<img src="imgs/shop3.jpg" width="100%" />
+								</div>
+								<!--页脚，放置补充信息或支持的操作-->
+								<div class="mui-card-footer">
+									<span>￥：399.00</span>
+									<span>556件</span>
+									<span>更多</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--卡片商品 end-->
+				</div>
+			</div>
+
+	
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui(".mui-slider").slider({
+				interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；
+			});
+			mui(".mui-scroll-wrapper").scroll({
+				deceleration: 0.0003 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+		</script>
+	</body>
+
+</html>

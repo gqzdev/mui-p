@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.oauth-area {
+				position: absolute;
+				bottom: 20px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				border: solid 1px #ddd;
+				border-radius: 25px;
+			}
+			
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+			
+			.oauth-area .oauth-btn.disabled {
+				background-color: #ddd;
+			}
+			
+			
+			#user_info div{
+				float:left;
+			}
+			
+			#user_info span{
+				color: coral;
+				font-weight:bolder ;
+			}
+			
+			#image{
+				width:100px;
+				height: 100px;
+				margin-left:10px ;
+			}
+			
+			#login{
+				text-align: center;
+			}
+			
+			#login img{
+				margin-left:30px ;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">登录</h1>
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+			</form>
+			<form class="mui-input-group">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						自动登录
+						<div id="autoLogin" class="mui-switch">
+							<div class="mui-switch-handle"></div>
+						</div>
+					</li>
+				</ul>
+			</form>
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+				<div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+				</div>
+			</div>
+			<div class="mui-content-padded oauth-area">
+
+			</div>
+			
+		
+			
+			
+			
+			<div id="user_info">
+				<div id="image">
+					<img :src="headImage" width="50%" height="50%" onclick="exit()" />
+				</div>
+				用户信息:<br />
+				<span >用户名：&nbsp;{{headName}}</span><br />
+				<span >性别：&nbsp;{{headSex}}</span><br />
+				<span >年龄：&nbsp;{{headAge}}</span><br />
+			</div>
+			
+			<br /><br />
+			
+			<div id="login">
+				<img src="images/qq.png" width="40px" height="40px" onclick="login1('qq')"/>
+				<img src="images/weixin.png" width="40px" height="40px" onclick="login1('weixin')"/>
+				<img src="images/sinaweibo.png" width="40px" height="40px" onclick="login1('sinaweibo')"/>
+			</div> 
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script>
+			var userInfoObj = new Vue({
+				el: "#user_info",
+				data: {
+					headImage:"images/user-photo.png",
+					headName:"",
+					headSex:"",
+					headAge:""
+				}
+			});
+			
+			mui.init();
+			
+			var auths=null;//授权列表
+			
+			var s=null;//授权登录服务的对象
+			
+			mui.plusReady(function(){
+				//获取服务
+				plus.oauth.getServices(function(s){
+						for (var i = 0; i < s.length; i++) {
+							//console.log(s[i].id+"  ,"+s[i].description);
+							auths=s;
+						}
+					},
+					function(error){
+						console.log(error.message);
+					}
+				);
+			});
+			
+			
+			//登录方法
+			function login1(type){
+				console.log("登录的类型是："+type);
+				
+				for (var i = 0; i <auths.length; i++) {
+					if(auths[i].id==type){
+						s=auths[i];//获取对应的授权对象 AuthService对象用于表示登录授权认证服务
+						break;
+					}
+				}
+				
+				//判断是否登录
+				console.log("是否已经授权："+s.authResult);
+				
+				if (!s.authResult) {
+					s.login(function(){
+							console.log("登录成功！");
+							mui.alert("登录成功！");
+							getUser(type);
+						},
+						function(error){
+							console.log("登录失败！"+error.message);
+							mui.alert("登录失败！");
+						}
+					);
+					
+				} else{
+					mui.toast("您已经登录！");
+				}
+			}
+			
+			
+			function getUser(type) {
+				s.getUserInfo(function(event){
+					var user=event.target.userInfo;
+					
+					console.log(JSON.stringify(user));
+					
+					plus.storage.setItem("user",user);
+					
+					if (type=="qq") {
+						userInfoObj.headImage=user.figureurl_1;
+					} else if (type=="weixin") {
+						userInfoObj.headImage=user.headimgurl;
+					}
+					userInfoObj.headName=user.nickname;
+				});
+			}
+			
+			function exit(){
+				
+				if (s!=null) {
+					s.logout(function(){ 
+						mui.toast("退出登录！");
+						
+						console.log("exit");
+					});
+				} else{
+					mui.toast("您还未登录登录！");
+				}
+			}
+		</script>
+	</body>
+
+</html>

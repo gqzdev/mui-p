@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">DirectoryEntry文件系统中的目录对象</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click1()">
+		    	获取DirectoryEntryd的属性
+		    </button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click2()">
+		    	创建或打开子目录DirectoryEntry的getDirectory()方法
+		    </button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click3()">
+		    	删除子目录DirectoryEntry的remove()方法
+		    </button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click4()">
+		    	打开文件并读取  FileReader对象
+		    </button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click5()">
+		    	创建文件并写入 FileWriter对象
+		    </button>
+
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			//获取DirectoryEntry的属性
+			/*属性：
+		    isFile: 操作对象的是否为文件，DirectoryEntry对象固定其值为false
+		    isDirectory: 操作对象是否为目录，DirectoryEntry对象固定其值为true
+		    name: 目录操作对象的名称，不包括路径
+		    fullPath: 目录操作对象的完整路径，文件系统的绝对路径
+		    fileSystem: 文件操作对象所属的文件系统对象，参考FileSystem*/
+
+			/*方法：
+		    getMetadata: 获取目录的属性
+		    moveTo: 移动目录
+		    copyTo: 拷贝目录
+		    toURL: 获取目录路径转换为URL地址
+		    toLocalURL: 获取目录路径转换为本地路径URL地址
+		    toRemoteURL: 获取目录路径转换为网络路径URL地址
+		    remove: 删除目录
+		    getParent: 获取目录所属的父目录
+		    createReader: 创建目录读取对象
+		    getDirectory: 创建或打开子目录
+		    getFile: 创建或打开文件
+		    removeRecursively: 递归删除目录*/
+
+			function click1() {
+				//快速获取指定的目录或文件操作对象
+				plus.io.resolveLocalFileSystemURL("_www/test.txt",
+					//通过URL参数获取目录或文件对象成功的回调函数
+					//参数是  entry 文件系统中的目录对象
+					function(entry) {
+						console.log("操作对象的是否为文件" + entry.isFile);
+						console.log("操作对象是否为目录" + entry.isDirectory);
+						console.log("目录操作对象的名称，不包括路径" + entry.name);
+						console.log("文件操作对象所属的文件系统对象" + entry.fileSystem);
+						console.log("目录操作对象的完整路径" + entry.fullPath);
+					},
+					function(e) {
+						console.log("文件操作失败" + e.message);
+					}
+				);
+			}
+
+			// DirectoryEntry方法 getDirectory   创建或打开子目录
+			function click2() {
+				plus.io.resolveLocalFileSystemURL("_documents/",
+					function(entry) {
+						// getDirectory: 创建或打开子目录    entry.getDirectory( path, flag, succesCB, errorCB );
+						/*参数
+						path: ( DOMString ) 必选 要操作目录相对于当前目录的地址
+						flag: ( Flags ) 可选 要操作文件或目录的参数
+						succesCB: ( EntrySuccessCallback ) 可选 创建或打开目录成功的回调函数
+						errorCB: ( FileErrorCallback ) 可选 创建或打开目录失败的回调函数*/
+						entry.getDirectory("newDir", {
+								create: true,
+								exclusive: false
+							},
+							function(dir) {
+								console.log("Directory Entry Name: " + dir.name);
+								console.log(dir.fullPath);
+							},
+							function() {
+								console.log("文件创建失败" + e.message);
+							}
+						);
+					},
+					function(e) {
+						console.log("文件操作失败" + e.message);
+					}
+
+				);
+
+			}
+
+			//DirectoryEntry方法remove() 删除子目录
+			function click3() {
+				plus.io.resolveLocalFileSystemURL("_documents/newDir",
+					function(entry) {
+						entry.remove(
+							function(entry1) {
+								console.log("删除成功！" + entry1.fullPath);
+							},
+							function(e) {
+								console.log("删除失败！");
+							}
+						);
+					},
+					function(e) {
+						console.log("文件操作失败" + e.message);
+					}
+
+				);
+
+			}
+
+			//打开文件并读取
+			// io的 FileReader对象
+			//文件系统中的读取文件对象，用于获取文件的内容
+			function click4() {
+				plus.io.resolveLocalFileSystemURL("_www/test.txt",
+					function(entry) {
+						var fileReader = new plus.io.FileReader(); //建立一个文件读取对象
+						fileReader.readAsText(entry, "utf-8"); //读取文件
+						fileReader.onloadend = function(evt) {
+							console.log(evt.target.result);
+						}
+					},
+					function(e) {
+						console.log("文件操作失败" + e.message);
+					}
+				);
+
+			}
+
+			//创建文件并写入
+			// io的 FileWriter对象
+			function click5() {
+				plus.io.resolveLocalFileSystemURL("_documents/",
+					function(entry) {
+						//getFile方法  创建或打开当前目录下指定的文件。 创建或打开文件操作对象成功通过succesCB回调返回，失败则通过errorCB返回。 
+						entry.getFile("ganquanzhong.txt", {
+								create: true,
+								exclusive: false
+							},
+							function(fileEntry) {
+								//创建文件写入对象
+								fileEntry.createWriter(function(writer) {
+									writer.write("您好ganquanzhong，这里是ForFuture Group服务！");
+									console.log("成功写入!");
+								});
+							},
+							function(e) {
+								console.log("文件创建失败" + e.message);
+							}
+						);
+					},
+					function(e) {
+						console.log("文件操作失败" + e.message);
+					}
+				);
+
+				//读取创建的ganquanzhong.txt文件
+				plus.io.resolveLocalFileSystemURL("_documents/",
+					function(entry) {
+						entry.getFile("ganquanzhong.txt", {
+								create: true,
+								exclusive: false
+							},
+							function(fileEntry) {
+								var fileReader = new plus.io.FileReader(); //建立一个文件读取对象
+								fileReader.readAsText(fileEntry, "utf-8"); //读取文件
+								fileReader.onloadend = function(evt) {
+									console.log(evt.target.result);
+								}	
+							},
+							function(e) {
+								console.log("文件创建失败" + e.message);
+							}
+						);
+					},
+					function(e) {
+						console.log("文件操作失败" + e.message);
+					}
+				);
+
+			}
+		</script>
+	</body>
+
+</html>

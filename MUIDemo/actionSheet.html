@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">ActionSheet-操作表</h1>
+		</header>
+		
+		<div class="mui-content">
+		    <div id="sheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+		        <!-- 可选择菜单 -->
+		        <ul class="mui-table-view">
+		          <li class="mui-table-view-cell">
+		            <a href="#">从本地相册中选择</a>
+		          </li>
+		          <li class="mui-table-view-cell">
+		            <a href="#">拍照</a>
+		          </li>
+		        </ul>
+		        <!-- 取消菜单 -->
+		        <ul class="mui-table-view">
+		          <li class="mui-table-view-cell">
+		            <a href="#sheet1"><b>取消</b></a>
+		          </li>
+		        </ul>
+		    </div>
+		    <a href="#sheet" id="openSheet" class="mui-btn mui-btn-primary mui-btn-block">选择照片</a>
+		    
+		</div>
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</body>
+
+</html>

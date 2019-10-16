@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">进度条</h1>
+		</header>
+		
+		<div class="mui-content">
+		    <div class="mui-progressbar mui-progressbar-infinite">
+		    	<span></span>
+		    </div>
+		    
+		    <button type="button" class="mui-btn mui-btn-red mui-btn-block" onclick="showProgress()">加载进度</button>
+		    <button type="button" class="mui-btn mui-btn-green mui-btn-block" onclick="changeProgress()">更新加载进度</button>
+		
+			<div class="mui-progressbar" id="progressBar">
+				<span></span>
+			</div>
+		
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var i=10,sum=0;
+			
+			function showProgress(){
+				mui("#progressBar").progressbar().setProgress(50);
+			}
+			
+			function changeProgress(){
+				mui("#progressBar").progressbar().setProgress(sum+i);
+				sum+=i;
+			}
+		
+			sum=sum%100;
+		</script>
+	</body>
+
+</html>

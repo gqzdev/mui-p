@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.card_item{
+				width: 33%;
+				float: left;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--这里放置真实显示的DOM内容-->
+					
+					<div class="mui-card">
+						<!--页眉，放置标题-->
+						<div class="mui-card-header">
+							<div class="mui-media-body">
+								<!--<span>618年中购物节</span>
+								<p>全球购物节-FORFUTUR 2018-6-18</p>-->
+							</div>
+						</div>
+						<!--内容区-->
+						<div class="mui-card-content">
+							<div class="card_item">
+								<img src="imgs/shop10.jpg" width="100%" />
+							</div>
+							<div class="card_item">
+								<img src="imgs/shop16.jpg" width="100%" />
+							</div>
+							<div class="card_item">
+								<img src="imgs/shop1.jpg" width="100%" />
+							</div>
+							
+						</div>
+						<!--页脚，放置补充信息或支持的操作-->
+						<div class="mui-card-footer">
+							
+						</div>
+					</div>
+
+					<!----->
+					<ul class="mui-table-view">
+					    <li class="mui-table-view-cell mui-media">
+					        <a href="javascript:;">
+					            <img class="mui-media-object mui-pull-left" src="imgs/pic6.jpg">
+					            <div class="mui-media-body">
+					                T XUE
+					                <p class="mui-ellipsis">马克华菲短袖男士t恤2018夏季纯色半袖棉打底衫休闲韩版衣服潮流</p>
+					            </div>
+					        </a>
+					    </li>
+					    <li class="mui-table-view-cell mui-media">
+					        <a href="javascript:;">
+					            <img class="mui-media-object mui-pull-left" src="imgs/shop16.jpg">
+					            <div class="mui-media-body">
+					            		上衣
+					                <p class="mui-ellipsis">矮妹也能穿好看的韩版春季三色宽松小西装外套女短款格子休闲上衣 </p>
+					            </div>
+					        </a>
+					    </li>
+					    <li class="mui-table-view-cell mui-media">
+					        <a href="javascript:;">
+					            <img class="mui-media-object mui-pull-left" src="imgs/shop19.jpg">
+					            <div class="mui-media-body">
+					                YOHO
+					                <p class="mui-ellipsis">YOHO有货正品潮牌LAL 男士T恤短袖 趣味卡通刺绣圆领TEE 多色可选 </p>
+					            </div>
+					        </a>
+					    </li>
+					</ul>
+
+				</div>
+			</div>
+
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui(".mui-scroll-wrapper").scroll({
+				deceleration: 0.0003 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+		</script>
+	</body>
+
+</html>

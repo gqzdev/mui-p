@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">网络上传任务 uploader</h1>
+		</header>
+
+		<div class="mui-content">
+			<div id="uploadContainer">
+				<div>
+					<center style="font-size: 16px;color: darkorange;margin: 10px 20px;">上传文件的列表：</center>
+					<p v-if="isShow" style="margin-left: 20px;font-size: 20px;color: red;">无上传文件</p>
+					<li v-for="item in fileName" style="margin-left: 20px;font-size: 20px;color: red;">{{item}}</li>
+				</div>
+				
+				<div style="text-align: center;margin-top: 20px;font-weight: bolder;">
+					<button type="button" class="mui-btn mui-btn-yellow " onclick="selectPic()">本地相册选取</button>
+					<button type="button" class="mui-btn mui-btn-yellow " onclick="selectCameraPic()">拍照上传</button>
+				</div>
+
+				<div id="" style="text-align: center;margin-top: 20px;">
+					<button type="button" class="mui-btn mui-btn-green " onclick="upload()">上传文件</button>
+					<button type="button" class="mui-btn mui-btn-danger " onclick="pauseUpload()">暂停上传</button>
+					<button type="button" class="mui-btn mui-btn-danger " onclick="cancelUpload()">取消上传</button>
+				</div>
+				<br />
+				<img :src="imgSrc" width="100%" height="auto" />
+				<img v-for="item in imgs" :src="item" width="100%" height="auto" />
+			</div>
+
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var uploadVue = new Vue({
+				el: "#uploadContainer",
+				data: {
+					imgSrc: "",
+					imgs: [],
+					isShow:true,
+					fileName:[]
+				}
+
+			});
+
+			var files=[];//文件对象
+			var server="http://demo.dcloud.net.cn/helloh5/uploader/upload.php";//文件上传服务器
+			var uploadTask=null;//文件上传对象
+			
+			function upload () {
+				if (files.length<=0) {
+					//用户未添加文件
+					mui.toast("您还未添加上传文件！");
+					return ;
+				}
+				
+				//等待框出现
+				var wt=plus.nativeUI.showWaiting();
+				var uploadTask=plus.uploader.createUpload(server,{method:'POST'},
+					function (task,status) {
+						//上传完成的回调函数
+						if (status==200) {
+							mui.toast("上传成功！");
+							mui.alert("上传成功！");
+							console.log("上传成功！");
+							wt.close();
+						}else{
+							mui.toast("上传失败！");
+							console.log("上传失败！");
+							wt.close();
+						}
+					}
+				);
+				
+				uploadTask.addData("client","ForFuture Group");
+				
+				//添加到文件到上传对象中
+				for (var i = 0; i < files.length; i++) {
+					var f=files[i];
+					uploadTask.addFile(f.path,{key:f.name});
+				}
+				
+				//开始上传文件
+				uploadTask.start();
+			}
+
+			//单选时通过GalleryPickSuccessCallback回调函数返回选择的图片或视频文件路径
+			function selectPic() {
+				plus.gallery.pick(function(path){
+						console.log(path);
+						//添加文件到Files对象
+						addFile(path);
+						
+						uploadVue.imgSrc=plus.io.convertLocalFileSystemURL(path);
+					},function(e){
+						console.log(e.message);
+					}
+				);
+			}
+			
+			//多选时通过GalleryMultiplePickSuccessCallback回调函数返回图片或视频文件路径。
+			function selectCameraPic() {
+				var camera=plus.camera.getCamera();
+				camera.captureImage(function(path){
+					console.log(path);
+					//添加文件到Files对象
+					addFile(path);
+					
+					uploadVue.imgSrc=plus.io.convertLocalFileSystemURL(path);
+				});
+			}
+
+			var index=0;
+			function addFile (path) {
+				var name=path.substr(path.lastIndexOf("/")+1);
+				uploadVue.fileName.push(name);//保存文件名
+				files.push({name:"uploadkey"+index,path:path});//保存文件
+				index++;
+				uploadVue.isShow=false;
+			}
+			
+			// 暂停上传任务
+			function pauseUpload() {
+				uploadTask.pause();
+			}
+			// 取消上传任务
+			function cancelUpload() {
+				uploadTask.pause();
+			}
+		</script>
+	</body>
+
+</html>

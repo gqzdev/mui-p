@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">Share 分享</h1>
+		</header>
+		
+		
+		<div class="mui-content">
+		    <div id="sheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+		        <!-- 可选择菜单 -->
+		        <ul class="mui-table-view">
+		          <li class="mui-table-view-cell" onclick="weixin()">
+		            <a href="#">分享到微信</a>
+		          </li>
+		          <li class="mui-table-view-cell" onclick="qq()">
+		            <a href="#">分享到QQ</a>
+		          </li>
+		          <li class="mui-table-view-cell" onclick="sinaweibo()">
+		            <a href="#">分享到新浪微博</a>
+		          </li>
+		        </ul>
+		        <!-- 取消菜单 -->
+		        <ul class="mui-table-view"  onclick="cancel()">
+		          <li class="mui-table-view-cell">
+		            <a href="#sheet1" id="cancel"><b>取消</b></a>
+		          </li>
+		        </ul>
+		    </div>
+		    <a href="#sheet" id="openSheet" class="mui-btn mui-btn-primary mui-btn-block">分享文章</a>
+		    
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			function cancel(){
+				document.getElementById("cancel").hidden;
+			}
+			 
+			var shareQQ,shareWeixin,shareWeibo; 
+			//hare模块管理客户端的社交分享功能，提供调用终端社交软件的分享能力。通过plus.share可获取社交分享管理对象。
+			mui.plusReady(function(){
+				//获取分享服务 获取终端支持的分享通道列表，可用于提示用户进行分享服务器的选择。获取分享服务成功后通过successCB回调返回支持的所有服务列表，获取服务失败则通过errorCB回调返回。
+				plus.share.getServices(function(s){
+						for (var i = 0; i < s.length; i++) {
+							//console.log(s[i].id+"  ,"+s[i].description+"  ,"+s[i].authenticated);
+							if(s[i].id=="qq"){
+								shareqq=s[i];
+							}
+							if(s[i].id=="weixin"){
+								shareWeixin=s[i];
+							}
+							if(s[i].id=="sinaweibo"){
+								shareWeibo=s[i];
+							}
+						}
+					},
+					function(error){
+						console.log(error.message);
+					}
+				);
+			});
+			
+			
+			function weixin () {
+				shareWeixin.send({
+						content:"Future Group",
+						href:"https://ganquanzhong.top",
+						extra:{scene:"WXSceneSession"}
+						
+						//"WXSceneSession"分享到微信的“我的好友”； "WXSceneTimeline"分享到微信的“朋友圈”中； "WXSceneFavorite"分享到微信的“我的收藏”中。 默认值为"WXSceneSession"。 
+					},
+					function() {
+						console.log("分享成功！")
+						mui.alert("分享成功！");
+					},
+					function(){
+						console.log("分享失败！")
+						mui.alert("分享失败！");
+					}
+				);
+			}
+			
+			function qq () {
+				//认证
+				if (!shareqq.authenticated) {
+					shareqq.authenticate(function(){
+						console.log("认证成功！");
+						shareWeixin.send({
+								title:"Future",
+								content:"Future Group",
+								href:"https://ganquanzhong.top",
+								//"WXSceneSession"分享到微信的“我的好友”； "WXSceneTimeline"分享到微信的“朋友圈”中； "WXSceneFavorite"分享到微信的“我的收藏”中。 默认值为"WXSceneSession"。 
+							},
+							function() {
+								console.log("分享成功！")
+								mui.alert("分享成功！");
+							},
+							function(){
+								console.log("分享失败！")
+								mui.alert("分享失败！");
+							});
+						},
+						function(e){
+							console.log("认证失败！");
+						}
+					);
+				}
+			}
+			
+			function sinaweibo () {
+				
+			}
+		</script>
+	</body>
+
+</html>

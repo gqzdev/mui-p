@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		
+		<style>
+			/*#newsContent p{
+				text-indent: 2em;
+			}*/
+			#newsContent>h3{
+				text-indent: 1em;
+			}
+			#newsContent img{
+				clear: both;		
+				width: 100%;
+				height: auto; 
+			}
+			.info{
+				color:red;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<div class="mui-scroll-wrapper">
+		    <div class="mui-scroll">
+		    	<div id="newsInfo">
+		    		<div style="margin: 10px 2px;color: black;font: '微软雅黑';">
+		    			<h4 style="text-align: center;">{{news.title}}</h4>
+		    		</div>
+		    		<div>
+		    			<img :src="news.cover" width="100%" height="320px" style="align-content: center;"/>
+		    		</div>
+		    		<div>
+		    			<span style="margin:0 6px;float: left;font-size: 14px;">发布时间：
+		    				<span class="info">{{news.published_at}}</span>
+		    			</span>
+		    			<span style="margin:0 6px;float: right;font-size: 14px;">作者：
+		    				<span class="info">{{news.author_name}}</span>
+		    			</span>
+		    		</div>
+		    		<div style="clear: both;"></div>
+		    		<div style="margin: 10px 2px;font-size: 18px;">
+		    			<div id="newsContent" v-html="news.content"></div>
+		    		</div>
+		    	</div>
+		    </div>
+		</div>
+		
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script type="text/javascript">
+			var newsInfo=new Vue({
+				el:"#newsInfo",
+				data:{
+					news:{
+						title:'',
+						author_name:'',
+						cover:'',
+						content:'',
+						published_at:''
+					}
+				}
+			});
+			mui.init();
+			/*detail.html通过plus.webview.currentWebview()得到当前窗口对象,
+			  获取传递过来的参数,显示新闻详情*/
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+			window.addEventListener('newsId',function(event){
+				var id=event.detail.id;
+				mui.getJSON(
+					"http://spider.dcloud.net.cn/api/news/36kr/"+id,
+					function(data){
+						newsInfo.news=data;
+					}
+				);
+			});
+		</script>
+	</body>
+
+</html>

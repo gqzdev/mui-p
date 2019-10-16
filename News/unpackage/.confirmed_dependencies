@@ -1,0 +1,24 @@
+{
+  "main.html": {
+    "refer": [
+      "setting.html"
+    ]
+  },
+  "login.html": {
+    "refer": [
+      "main.html"
+    ]
+  },
+  "index.html": {
+    "resources": [
+      "newsList.html"
+    ],
+    "refer": [
+      "newsList.html",
+      "newsDetail.html",
+      "main.html",
+      "setting.html",
+      "login.html"
+    ]
+  }
+}

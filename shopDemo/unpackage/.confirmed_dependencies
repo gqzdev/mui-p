@@ -1,0 +1,15 @@
+{
+	"index.html": {
+		"resources": [
+			"list.html"
+		],
+		"refer": [
+			"list.html",
+			"barcode_scan.html",
+			"shopcart.html",
+			"weitao.html",
+			"message.html",
+			"mine.html"
+		]
+	}
+}

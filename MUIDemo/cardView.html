@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">cradview-卡片视图</h1>
+		</header>
+
+		<div class="mui-content">
+			
+			<!--
+            	作者：971785418@qq.com
+            	时间：2018-06-11
+            	描述：
+            -->
+			<div class="mui-card">
+				<!--页眉，放置标题-->
+				<!--若希望在页眉放置更丰富的信息，比如头像、主标题、副标题，则需使用.mui-media-body类，示例代码如下：-->
+				<div class="mui-card-header mui-card-media">
+					<img src="img/13.jpg" />
+					<div class="mui-media-body">
+						小M
+						<p>发表于 2018-06-30 15:30</p>
+					</div>
+				</div>
+				<!--内容区-->
+				<div class="mui-card-content">
+					<img src="img/19.jpg" width="100%"/>
+				</div>
+				<!--页脚，放置补充信息或支持的操作-->
+				<div class="mui-card-footer">
+					<a class="mui-card-link">赞</a>				
+					<a class="mui-card-link">评论</a>				
+					<a class="mui-card-link">转发</a>				
+				</div>
+			</div>
+			
+			
+			<!--
+            	作者：971785418@qq.com
+            	时间：2018-06-11
+            	描述：在页眉处放置图片
+            -->
+			<div class="mui-card">
+				<!--页眉，放置标题-->
+				<!--卡片页眉及内容区，均支持放置图片； 页眉放置图片的话，需要在.mui-card-header节点上增加.mui-card-media类，然后设置一张图片做背景图即可，代码如下：-->
+			<div class="mui-card-header mui-card-media" style="height:60vw;background-image:url(img/19.jpg)"></div>
+				<!--内容区-->
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p>小美&nbsp;发表于 2018-06-30 15:30</p>
+						豪车，fdsfsdf
+					</div>
+				</div>
+				<!--页脚，放置补充信息或支持的操作-->
+				<div class="mui-card-footer">
+					<a class="mui-card-link">赞</a>				
+					<a class="mui-card-link">评论</a>				
+					<a class="mui-card-link">转发</a>				
+				</div>
+				
+			</div>
+			
+			
+			
+		</div>
+
+
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</body>
+
+</html>

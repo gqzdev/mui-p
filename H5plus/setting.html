@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">手机设备操作</h1>
+		</header>
+		
+		<div class="mui-content">
+		    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click1()">手机设备震动</button>
+		    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click2()">手机发出蜂鸣声</button>
+		    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click3()">手机设备屏幕保持唤醒状态</button>
+		    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click4()">消息推送</button>
+		    
+		    
+		    <div class="mui-input-row mui-input-range">
+		        <label>音量大小</label>
+		        <input type="range" min="0" max="100"  onchange="setVol(this.value)">
+		    </div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			function click1(){
+				plus.device.vibrate(2000);
+			}
+			
+			function click2(){
+				plus.device.beep(3);
+			}
+			
+			function click3(){
+				plus.device.setWakelock(true);
+			}
+			
+			function click4(){
+				plus.push.createMessage("ForFuture Group开启人工智能时代服务！");
+				plus.push.addEventListener("click",function(){
+					click1();
+				});
+				
+			}
+			
+			function setVol(value){
+				plus.device.setVolume(value/100);
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">IO模块操作</h1>
+		</header>
+		
+		<div class="mui-content">
+		    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click1()">请求本地文件系统对象</button>
+		    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click2()">通过URL参数获取目录对象或文件对象</button>
+		    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click3()">将本地URL路径转换成平台绝对路径</button>
+		    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="click4()">将平台绝对路径转换成本地URL路径</button>
+		    
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			/*
+			  IO
+		    requestFileSystem: 请求本地文件系统对象
+		    resolveLocalFileSystemURL: 通过URL参数获取目录对象或文件对象
+		    convertLocalFileSystemURL: 将本地URL路径转换成平台绝对路径
+		    convertAbsoluteFileSystem: 将平台绝对路径转换成本地URL路径
+			  
+			*/
+			
+			function click1(){
+				/*
+				获取指定的文件系统，可通过type指定获取文件系统的类型。				 
+				获取指定的文件系统对象成功通过succesCB回调返回，失败则通过errorCB返回。
+				void plus.io.requestFileSystem( type, succesCB, errorCB );
+				
+				*/
+				
+				plus.io.requestFileSystem(plus.io.PRIVATE_WWW,function(fs){
+						mui,alert(fs.name+" ," +fs.root.name);
+						console.log(fs.name+" ," +fs.root.name);
+					},
+					function(e){
+						console.log(e);
+					}
+				);
+			}
+			
+			function click2(){
+				/*
+				 通过URL参数获取目录对象或文件对象
+				 快速获取指定的目录或文件操作对象，
+				 如通过URL值“_www/test.html”可直接获取文件操作对象。 
+				 url值可支持相对路径URL、本地路径URL、网络路径URL(http://localhost:13131/开头)。 
+				 获取指定的文件或目录操作对象成功通过succesCB回调返回，
+				 如果指定URL路径或文件不存在则失败通过errorCB回调返回。
+				 * */
+				plus.io.resolveLocalFileSystemURL("_www/test.txt",
+					function(entry){
+						mui.alert(entry.fullPath);
+						console.log(entry.fullPath);
+					},
+					function(e){
+						console.log(e);
+					}
+				);
+			}
+			
+			function click3(){
+				/*
+				 将本地URL路径转换成平台绝对路径
+				 绝对路径符合各平台文件路径格式，通常用于Native.JS调用系统原生文件操作API，
+				 也可以在前面添加“file://”后在html页面中直接使用。
+				 * */
+				var path=plus.io.convertLocalFileSystemURL("_wwww/test.txt");
+				mui.alert(path);
+				console.log(path);
+			}
+			
+			function click4(){
+				/*
+				 将平台绝对路径转换成本地URL路径
+				 绝对路径符合各平台文件路径格式，转换后变成RelativeURL类型格式。
+				 功能与convertLocalFileSystemURL方法相反，将绝对路径转换成相对路径。
+				 * */
+				var path=plus.io.convertLocalFileSystemURL("_wwww/test.txt");
+				console.log(plus.io.convertAbsoluteFileSystem(path));
+				mui.alert(plus.io.convertAbsoluteFileSystem(path));
+			}
+			
+			
+		</script>
+	</body>
+
+</html>

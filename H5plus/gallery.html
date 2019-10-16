@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">Gallery模块管理系统相册</h1>
+		</header>
+
+		<div class="mui-content">
+			<div id="gallery">
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="selectPic()">从系统相册选择照片</button>
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="selectMultiplePic()">从系统相册选择多张照片</button>
+
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block" onclick="savePic()">将照片保存到相册中</button>
+
+				<img :src="imgSrc" width="100%" height="auto" />
+				<img v-for="item in imgs" :src="item" width="100%" height="auto" />
+			</div>
+
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var gallery = new Vue({
+				el: "#gallery",
+				data: {
+					imgSrc: "",
+					imgs: []
+				}
+
+			});
+
+			//单选时通过GalleryPickSuccessCallback回调函数返回选择的图片或视频文件路径
+			function selectPic() {
+				plus.gallery.pick(function(path){
+						console.log(path);
+						gallery.imgSrc=plus.io.convertLocalFileSystemURL(path);
+					},function(e){
+						console.log(e.message);
+					}
+				);
+			}
+			
+			//多选时通过GalleryMultiplePickSuccessCallback回调函数返回图片或视频文件路径。
+			function selectMultiplePic() {
+				plus.gallery.pick(function(evt){
+						for (var i = 0; i < evt.files.length; i++) {
+							gallery.imgs.splice(i,0,plus.io.convertLocalFileSystemURL(evt.files[i]));
+						}
+					},function(e){
+						console.log(e.message);
+					},
+					{multiple:true}
+				);
+			}
+
+			//保存文件到系统相册中
+			/*
+			void plus.gallery.save( path, successCB, errorCB );
+			 保存文件到系统相册中。 每次仅能保存一个文件，支持图片类型（jpg/jpeg、png、bmp等格式）和视频文件（3gp、mov等格式）。
+			若保存的文件系统不支持，则通过errorCB返回错误信息。*/
+			function savePic() {
+				plus.gallery.save("_www/1.jpg",
+					function(evt) {
+						mui.alert("照片保存成功！");
+						console.log("照片保存成功！")
+					},
+					function(e) {
+						console.log(e.message);
+					}
+				);
+			}
+		</script>
+	</body>
+
+</html>
